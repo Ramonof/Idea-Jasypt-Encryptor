@@ -1,0 +1,53 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.ramonof.idea-encryptor-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Idea-Jasypt-Encryptor</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://github.com/Ramonof">Ramonof</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>Плагин для работы с шифрованием jasypt:
+        -Добавляет опции в контексное меню для шифровки/дешифровки выбранного текста
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+<!--    <depends>org.jetbrains.plugins.yaml</depends>-->
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.ramonof.intellij.plugin.encryptor.JasyptPluginSettings"/>
+        <notificationGroup id="jasypt encryption error"
+                           displayType="BALLOON"
+                           key="notification.group.name"/>
+        <codeInsight.lineMarkerProvider
+                language="yaml"
+                implementationClass="com.ramonof.intellij.plugin.encryptor.DecryptLineMarkerProvider"/>
+
+    </extensions>
+    <actions>
+        <action id="com.ramonof.intellij.plugin.encrypt.actions.UncryptStringAction"
+                class="com.ramonof.intellij.plugin.encryptor.actions.UncryptStringAction"
+                icon="AllIcons.Nodes.Public"
+                text="Decrypt String"
+                description="Decrypt string">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+        <action id="com.ramonof.intellij.plugin.encrypt.actions.EncryptStringAction"
+                class="com.ramonof.intellij.plugin.encryptor.actions.EncryptStringAction"
+                icon="AllIcons.Nodes.Private"
+                text="Encrypt String"
+                description="Encrypt string">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
