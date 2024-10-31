@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.10.1"
+    id("org.jetbrains.intellij.platform") version "2.1.0"
 }
 
 group = "com.ramonof"
@@ -8,31 +8,36 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
+
 }
 
 dependencies {
     implementation("org.jasypt:jasypt:1.9.2")
-}
+    intellijPlatform {
+        intellijIdeaCommunity("2024.2.4")
+        bundledPlugin("com.intellij.java")
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("2022.1.4")
-    type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf(/* Plugin Dependencies */))
+        pluginVerifier()
+        zipSigner()
+        instrumentationTools()
+    }
 }
 
 tasks {
+
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "11"
-        targetCompatibility = "11"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
 
     patchPluginXml {
         sinceBuild.set("213")
-        untilBuild.set("231.*")
+        untilBuild.set("243.*")
     }
 
     signPlugin {
