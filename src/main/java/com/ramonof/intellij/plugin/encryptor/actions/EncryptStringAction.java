@@ -1,5 +1,6 @@
 package com.ramonof.intellij.plugin.encryptor.actions;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorImpl;
@@ -16,6 +17,12 @@ import java.util.Optional;
 import static com.ramonof.intellij.plugin.encryptor.CipherInformationsDialog.*;
 
 public class EncryptStringAction extends JasyptAction {
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+
     @Override
     public void actionPerformed(@NotNull final AnActionEvent event) {
         super.actionPerformed(event);
